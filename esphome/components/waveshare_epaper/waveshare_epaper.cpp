@@ -124,7 +124,7 @@ void WaveshareEPaper::fill(Color color) {
     // flip logic
     uint32_t startPosColor = ((this->get_width_internal() * this->get_height_internal() / 8u) * indexColor);
     uint32_t endPosColor = ((this->get_width_internal() * this->get_height_internal() / 8u) * (indexColor + 1));
-    fill =  (color332 != this->get_color_list_internal(indexColor)) ? 0x00 : 0xFF;
+    fill =  (color332 == this->get_color_list_internal(indexColor)) ? 0x00 : 0xFF;
     for (uint32_t i = startPosColor; i < endPosColor; i++)
       this->buffer_[i] = fill;
   }
@@ -141,7 +141,7 @@ void HOT WaveshareEPaper::draw_absolute_pixel_internal(int x, int y, Color color
     // flip logic
     uint32_t posColor = ((this->get_width_internal() * this->get_height_internal() / 8u) * indexColor) + pos;
     this->buffer_[posColor] &= ~(0x80 >> subpos);
-    if (color332 == this->get_color_list_internal(indexColor)) {
+    if (color332 != this->get_color_list_internal(indexColor)) {
       this->buffer_[posColor] |= (0x80 >> subpos);
     }
   }
@@ -967,14 +967,14 @@ void HOT WaveshareEPaper7P5InV2B::display() {
   this->command(0x10);
   delay(2);
   for (uint32_t i = 0; i < buf_len/2; i++) {
-    this->data(this->buffer_[i]);
+    this->data(~this->buffer_[i]);
   }
 
   // COMMAND DATA START TRANSMISSION NEW DATA
   this->command(0x13);
   delay(2);
   for (uint32_t i = buf_len/2; i < buf_len; i++) {
-    this->data(this->buffer_[i]);
+    this->data(~this->buffer_[i]);
   }
 
   // COMMAND DISPLAY REFRESH
