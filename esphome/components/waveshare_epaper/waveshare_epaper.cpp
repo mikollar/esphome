@@ -844,6 +844,7 @@ void HOT WaveshareEPaper7P5In::display() {
         temp3 = 0x00; // Black
       temp3 <<= 4;
       temp1 <<= 1;
+      temp2 <<= 1;
       j++;
       if ((temp2 & 0x80) != 0x80)
         temp3 = 0x04; // Red
@@ -852,6 +853,7 @@ void HOT WaveshareEPaper7P5In::display() {
       else
         temp3 = 0x00; // Black
       temp1 <<= 1;
+      temp2 <<= 1;
       this->write_byte(temp3);
     }
     App.feed_wdt();
