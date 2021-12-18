@@ -847,11 +847,11 @@ void HOT WaveshareEPaper7P5In::display() {
       temp2 <<= 1;
       j++;
       if ((temp2 & 0x80) != 0x80)
-        temp3 = 0x04; // Red
+        temp3 |= 0x04; // Red
       else if (temp1 & 0x80)
-        temp3 = 0x03; // White
+        temp3 |= 0x03; // White
       else
-        temp3 = 0x00; // Black
+        temp3 |= 0x00; // Black
       temp1 <<= 1;
       temp2 <<= 1;
       this->write_byte(temp3);
