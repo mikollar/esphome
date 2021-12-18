@@ -831,23 +831,28 @@ void HOT WaveshareEPaper7P5In::display() {
   // COMMAND DATA START TRANSMISSION 1
   this->command(0x10);
   this->start_data_();
-  for (size_t i = 0; i < this->get_buffer_length_(); i++) {
+  for (size_t i = 0; i < (this->get_buffer_length_() / 2); i++) {
     uint8_t temp1 = this->buffer_[i];
+    uint8_t temp2 = this->buffer_[i + (this->get_buffer_length_() / 2)];
     for (uint8_t j = 0; j < 8; j++) {
-      uint8_t temp2;
-      if (temp1 & 0x80)
-        temp2 = 0x03;
+      uint8_t temp3;
+      if ((temp2 & 0x80) != 0x80)
+        temp3 = 0x04; // Red
+      else if (temp1 & 0x80)
+        temp3 = 0x03; // White
       else
-        temp2 = 0x00;
-      temp2 <<= 4;
+        temp3 = 0x00; // Black
+      temp3 <<= 4;
       temp1 <<= 1;
       j++;
-      if (temp1 & 0x80)
-        temp2 |= 0x03;
+      if ((temp2 & 0x80) != 0x80)
+        temp3 = 0x04; // Red
+      else if (temp1 & 0x80)
+        temp3 = 0x03; // White
       else
-        temp2 |= 0x00;
+        temp3 = 0x00; // Black
       temp1 <<= 1;
-      this->write_byte(temp2);
+      this->write_byte(temp3);
     }
     App.feed_wdt();
   }
