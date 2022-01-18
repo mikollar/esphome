@@ -934,6 +934,7 @@ void WaveshareEPaper5P8In::dump_config() {
   LOG_PIN("  Busy Pin: ", this->busy_pin_);
   LOG_UPDATE_INTERVAL(this);
 }
+
 void WaveshareEPaper7P5In::initialize() {
   // COMMAND POWER SETTING
   this->command(0x01);
@@ -941,8 +942,8 @@ void WaveshareEPaper7P5In::initialize() {
   this->data(0x00);
   // COMMAND PANEL SETTING
   this->command(0x00);
-  this->data(0xCF);
-  this->data(0x0B);
+  this->data(0xCC);
+  this->data(0x28);
   // COMMAND BOOSTER SOFT START
   this->command(0x06);
   this->data(0xC7);
@@ -954,7 +955,7 @@ void WaveshareEPaper7P5In::initialize() {
   delay(10);
   // COMMAND PLL CONTROL
   this->command(0x30);
-  this->data(0x3C);
+  this->data(0x3A);
   // COMMAND TEMPERATURE SENSOR CALIBRATION
   this->command(0x41);
   this->data(0x00);
@@ -1008,7 +1009,12 @@ void HOT WaveshareEPaper7P5In::display() {
 
   // COMMAND POWER OFF
   // NOTE: power off < deep sleep
+   ESP_LOGI(TAG, "Performing deep sleep e-paper.");
   this->command(0x02);
+  this->wait_until_idle_();
+  this->command(0x07);
+  this->write_byte(0xa5);
+  
 }
 int WaveshareEPaper7P5In::get_width_internal() { return 640; }
 int WaveshareEPaper7P5In::get_height_internal() { return 384; }
@@ -1068,7 +1074,11 @@ void HOT WaveshareEPaper7P5InV2::display() {
 
   // COMMAND POWER OFF
   // NOTE: power off < deep sleep
-  this->command(0x02);
+  ESP_LOGI(TAG, "Performing deep sleep e-paper.");
+    this->command(0x02);
+  this->wait_until_idle_();
+  this->command(0x07);
+  this->write_byte(0xa5);
 }
 
 int WaveshareEPaper7P5InV2::get_width_internal() { return 800; }
@@ -1168,7 +1178,11 @@ void HOT WaveshareEPaper7P5InBC::display() {
 
   // COMMAND POWER OFF
   // NOTE: power off < deep sleep
-  this->command(0x02);
+  ESP_LOGI(TAG, "Performing deep sleep e-paper.");
+    this->command(0x02);
+  this->wait_until_idle_();
+  this->command(0x07);
+  this->write_byte(0xa5);
 }
 
 int WaveshareEPaper7P5InBC::get_width_internal() { return 640; }
