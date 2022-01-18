@@ -1009,7 +1009,7 @@ void HOT WaveshareEPaper7P5In::display() {
 
   // COMMAND POWER OFF
   // NOTE: power off < deep sleep
-   ESP_LOGI(TAG, "Performing deep sleep e-paper.");
+   ESP_LOGE(TAG, "Performing deep sleep e-paper.");
   this->command(0x02);
   this->wait_until_idle_();
   this->command(0x07);
@@ -1178,7 +1178,7 @@ void HOT WaveshareEPaper7P5InBC::display() {
 
   // COMMAND POWER OFF
   // NOTE: power off < deep sleep
-  ESP_LOGI(TAG, "Performing deep sleep e-paper.");
+  ESP_LOGE(TAG, "Performing deep sleep e-paper.");
     this->command(0x02);
   this->wait_until_idle_();
   this->command(0x07);
@@ -1309,7 +1309,7 @@ void HOT WaveshareEPaper2P13InDKE::display() {
     delay(300);  // NOLINT
   }
 
-  ESP_LOGI(TAG, "Completed e-paper update.");
+  ESP_LOGE(TAG, "Completed e-paper update.");
 }
 
 int WaveshareEPaper2P13InDKE::get_width_internal() { return 128; }
