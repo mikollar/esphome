@@ -1003,6 +1003,12 @@ void HOT WaveshareEPaper7P5In::display() {
   this->end_data_();
   // COMMAND DISPLAY REFRESH
   this->command(0x12);
+  
+    this->wait_until_idle_();
+
+  // COMMAND POWER OFF
+  // NOTE: power off < deep sleep
+  this->command(0x02);
 }
 int WaveshareEPaper7P5In::get_width_internal() { return 640; }
 int WaveshareEPaper7P5In::get_height_internal() { return 384; }
@@ -1059,6 +1065,10 @@ void HOT WaveshareEPaper7P5InV2::display() {
   this->command(0x12);
   delay(100);  // NOLINT
   this->wait_until_idle_();
+
+  // COMMAND POWER OFF
+  // NOTE: power off < deep sleep
+  this->command(0x02);
 }
 
 int WaveshareEPaper7P5InV2::get_width_internal() { return 800; }
@@ -1153,6 +1163,12 @@ void HOT WaveshareEPaper7P5InBC::display() {
 
   // COMMAND DISPLAY REFRESH
   this->command(0x12);
+  
+  this->wait_until_idle_();
+
+  // COMMAND POWER OFF
+  // NOTE: power off < deep sleep
+  this->command(0x02);
 }
 
 int WaveshareEPaper7P5InBC::get_width_internal() { return 640; }
